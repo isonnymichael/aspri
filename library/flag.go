@@ -40,6 +40,7 @@ type Flag struct {
 	ResetCache         *bool
 	Rsync              *bool
 	Stats              *bool
+	Sort               *bool
 	SearchTemplate     *bool
 	SearchandReplace   *bool
 	Standardize        *bool
@@ -90,6 +91,7 @@ type Flag struct {
 	Password     *string
 	Regex        *string
 	Start        *string
+	SortOrder    *string
 	Text         *string
 	To           *string
 	Type         *string
@@ -140,6 +142,7 @@ func GetFlag() Flag {
 		SelfUpdate:         flag.Bool("self-update", false, "self update"),
 		Standardize:        flag.Bool("standardize", false, "Standardize"),
 		Stats:              flag.Bool("stats", false, "show stats"),
+		Sort:               flag.Bool("sort", false, "Sort Files by Date"),
 		Tree:               flag.Bool("tree", false, "Tree Mode"),
 		Update:             flag.Bool("update", false, "update"),
 		WPClean:            flag.Bool("wp-clean", false, "WP Clean Project Files for Production"),
@@ -183,6 +186,7 @@ func GetFlag() Flag {
 		Password:     flag.StringP("password", "p", "", "Password"),
 		Regex:        flag.String("regex", "", "Regex"),
 		Start:        flag.String("start", "", "Start Date"),
+		SortOrder:    flag.String("sort-order", "", "Sort Order"),
 		Text:         flag.String("text", "", "Text"),
 		To:           flag.String("to", "", "Refactor Text To"),
 		Type:         flag.String("type", "", "Build type (WordPress)"),

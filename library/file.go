@@ -7,9 +7,11 @@ import (
 	"github.com/tdewolff/minify/css"
 	"github.com/tdewolff/minify/js"
 	"io"
+	"io/ioutil"
 	"os"
 	"path/filepath"
 	"regexp"
+	"sort"
 	"strings"
 	"time"
 )
@@ -24,6 +26,10 @@ func InitiateFileFunction(flags Flag) {
 	if *flags.File && *flags.Count && *flags.Text != "" {
 		count := CountFilesContainingText(*flags.Path, *flags.Text, *flags.Exclude)
 		fmt.Println("🐙 There are", count, "files containing", *flags.Text)
+	}
+	// Sort Files by date
+	if *flags.File && *flags.Sort && *flags.SortOrder != "" {
+		SortFilesByDate(*flags.Path, *flags.SortOrder)
 	}
 	// Find files younger than days matching regex
 	if *flags.File && *flags.Find && *flags.YoungerThan && *flags.Days > 0 {
@@ -205,7 +211,7 @@ func minifyFiles(path string) {
 	fmt.Println("✅ Successfully minify files in", path)
 }
 
-/** Count Files Containing Text */
+// Count Files Containing Text
 func CountFilesContainingText(path string, text string, exclude []string) int {
 	var count int
 
@@ -247,6 +253,34 @@ func CountFilesContainingText(path string, text string, exclude []string) int {
 	}
 
 	return count
+}
+
+// Sort Files by Date
+func SortFilesByDate(path string, sortOrder string) {
+	// Get the list of files in the directory
+	files, err := ioutil.ReadDir(path)
+	if err != nil {
+		fmt.Println("❌ Error:", err)
+		return
+	}
+
+	// Filter out directories and create slice of only files
+	var onlyFiles []os.FileInfo
+	for _, f := range files {
+		if !f.IsDir() {
+			onlyFiles = append(onlyFiles, f)
+		}
+	}
+
+	// Sort the files by modification time
+	sort.Slice(onlyFiles, func(i, j int) bool {
+		return onlyFiles[i].ModTime().Before(onlyFiles[j].ModTime())
+	})
+
+	// Print the sorted files
+	for _, file := range onlyFiles {
+		fmt.Println(file.Name())
+	}
 }
 
 // Find files by age

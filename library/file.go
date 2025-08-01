@@ -9,6 +9,7 @@ import (
 	"io"
 	"io/ioutil"
 	"os"
+	"math/rand"
 	"path/filepath"
 	"regexp"
 	"sort"
@@ -30,6 +31,17 @@ func InitiateFileFunction(flags Flag) {
 	// Sort Files by date
 	if *flags.File && *flags.Sort && *flags.SortOrder != "" {
 		SortFilesByDate(*flags.Path, *flags.SortOrder)
+	}
+	// Find file randomly 
+	if *flags.File && *flags.Find && *flags.Random {
+		files, err := FindFilesRandomly(*flags.Path, *flags.Number, *flags.Subdirectory, *flags.Regex, *flags.Exclude)
+		if err != nil {
+			fmt.Println("❌ ", err)
+		} else {
+			for _, file := range files {
+				fmt.Println(file)
+			}
+		}
 	}
 	// Find files younger than days matching regex
 	if *flags.File && *flags.Find && *flags.YoungerThan && *flags.Days > 0 {
@@ -282,6 +294,70 @@ func SortFilesByDate(path string, sortOrder string) {
 		fmt.Println(file.Name())
 	}
 }
+
+// FindFilesRandomly finds files matching a pattern randomly in a directory path
+// If no pattern is provided, returns random files from the path
+func FindFilesRandomly(path string, number int, subdirectory bool, pattern string, exclude []string) ([]string, error) {
+    var matchingFiles []string
+
+    // Function to check if file should be excluded
+    isExcluded := func(filePath string) bool {
+        for _, excludePattern := range exclude {
+            if strings.Contains(filePath, excludePattern) {
+                return true
+            }
+        }
+        return false
+    }
+
+    // Function to process a single directory
+    var processDir func(string) error
+    processDir = func(dirPath string) error {
+        entries, err := os.ReadDir(dirPath)
+        if err != nil {
+            return fmt.Errorf("error reading directory: %w", err)
+        }
+
+        for _, entry := range entries {
+            filePath := filepath.Join(dirPath, entry.Name())
+            
+            if entry.IsDir() {
+                if subdirectory {
+                    if err := processDir(filePath); err != nil {
+                        return err
+                    }
+                }
+                continue
+            }
+
+            // Check if file matches pattern and is not excluded
+            if (pattern == "" || strings.Contains(entry.Name(), pattern)) && !isExcluded(filePath) {
+                matchingFiles = append(matchingFiles, filePath)
+            }
+        }
+        return nil
+    }
+
+    // Process the root directory
+    if err := processDir(path); err != nil {
+        return nil, err
+    }
+
+    // Randomize the order of matching files using Fisher-Yates shuffle
+    rand.Seed(time.Now().UnixNano())
+    for i := len(matchingFiles) - 1; i > 0; i-- {
+        j := rand.Intn(i + 1)
+        matchingFiles[i], matchingFiles[j] = matchingFiles[j], matchingFiles[i]
+    }
+
+    // Return only the requested number of files
+    if number > 0 && number < len(matchingFiles) {
+        matchingFiles = matchingFiles[:number]
+    }
+
+    return matchingFiles, nil
+}
+
 
 // Find files by age
 func FindFilesByAge(path string, pattern string, retentionDays int, exclude []string, older bool) ([]string, error) {

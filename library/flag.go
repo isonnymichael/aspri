@@ -33,6 +33,7 @@ type Flag struct {
 	PHP                *bool
 	PHPCS              *bool
 	QuoteofTheDay      *bool
+	Random             *bool
 	Remove             *bool
 	RemoveConflicts    *bool
 	RemoveLink         *bool
@@ -44,6 +45,7 @@ type Flag struct {
 	SearchTemplate     *bool
 	SearchandReplace   *bool
 	Standardize        *bool
+	Subdirectory       *bool
 	Syncthing          *bool
 	WPClean            *bool
 	WPPluginBuild      *bool
@@ -83,10 +85,11 @@ type Flag struct {
 	From         *string
 	Heading      *string
 	Hostname     *string
-	Keyword     *string
+	Keyword      *string
 	Level        *int
 	Limit        *int
 	Message      *string
+	Number       *int
 	Path         *string
 	Password     *string
 	Regex        *string
@@ -127,6 +130,7 @@ func GetFlag() Flag {
 		OlderThan:          flag.Bool("older-than", false, "Older Than Mode"),
 		PHP:                flag.Bool("php", false, "PHP Mode"),
 		PHPCS:              flag.Bool("phpcs", false, "PHP Code Sniffer Mode"),
+		Random:             flag.Bool("random", false, "Random Mode"),
 		Remove:             flag.Bool("remove", false, "Remove Mode for Dir and File"),
 		RemoveConflicts:    flag.Bool("remove-conflicts", false, "Remove Conflicts"),
 		RemoveLink:         flag.Bool("remove-link", false, "Remove Link from File"),
@@ -142,6 +146,7 @@ func GetFlag() Flag {
 		SelfUpdate:         flag.Bool("self-update", false, "self update"),
 		Standardize:        flag.Bool("standardize", false, "Standardize"),
 		Stats:              flag.Bool("stats", false, "show stats"),
+		Subdirectory:       flag.Bool("subdirectory", false, "Subdirectory Mode"),
 		Sort:               flag.Bool("sort", false, "Sort Files by Date"),
 		Tree:               flag.Bool("tree", false, "Tree Mode"),
 		Update:             flag.Bool("update", false, "update"),
@@ -182,6 +187,7 @@ func GetFlag() Flag {
 		Level:        flag.Int("level", 0, "Directory Level (Dir Mode): Directory Level"),
 		Limit:        flag.Int("limit", 0, "Number of limit"),
 		Message:      flag.StringP("message", "m", "", "Message (Git Mode): Commit Message"),
+		Number:       flag.IntP("number", "n", 0, "Number of random files"),
 		Path:         flag.String("path", "", "Refactor : Path to Directory"),
 		Password:     flag.StringP("password", "p", "", "Password"),
 		Regex:        flag.String("regex", "", "Regex"),

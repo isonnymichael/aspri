@@ -62,7 +62,7 @@ You can install aspri by using one of these method
 - Directory Stats : `--dir --stats --path {workdir}`
 - Extract Urls : `--extract-url --path {workdir} --url {url}`
 - Find files older than : `--file --find --older-than --days {days} --regex {regex} --path {workdir} --dry-run`
-- Find files randomly : `--file --find --random --regex {regex} --path {workdir} --dry-run`
+- Find files randomly : `--file --find --random --number {number} --subdirectory --regex {regex} --path {workdir} --dry-run`
 - Find files younger than : `--file --find --younger-than --days {days} --regex {regex} --path {workdir} --dry-run`
 - Find files between dates : `--file --find --between --start {start} --end {end} --regex {regex} --path {workdir} --dry-run`
 - Remove Directories or Files Nested by Filenames :

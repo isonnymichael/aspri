@@ -64,6 +64,26 @@ func (x *XMLHandler) ExtractURLs(filePath string) ([]string, error) {
 	// Track current element path
 	var currentPath []string
 
+	// Common file extensions to ignore
+	fileExtensions := []string{
+		".jpg", ".jpeg", ".png", ".gif", ".bmp", ".webp",
+		".pdf", ".doc", ".docx", ".xls", ".xlsx",
+		".zip", ".rar", ".tar", ".gz",
+		".mp3", ".mp4", ".avi", ".mov",
+		".css", ".js", ".ico",
+	}
+
+	// Helper function to check if URL ends with ignored file extension
+	isFileURL := func(url string) bool {
+		urlLower := strings.ToLower(url)
+		for _, ext := range fileExtensions {
+			if strings.HasSuffix(urlLower, ext) {
+				return true
+			}
+		}
+		return false
+	}
+
 	// Iterate through XML tokens
 	for {
 		token, err := decoder.Token()
@@ -82,7 +102,7 @@ func (x *XMLHandler) ExtractURLs(filePath string) ([]string, error) {
 			// Check attributes for URLs
 			for _, attr := range t.Attr {
 				if isURLAttribute(attr.Name.Local) {
-					if isValidURL(attr.Value) {
+					if isValidURL(attr.Value) && !isFileURL(attr.Value) {
 						urls = append(urls, attr.Value)
 					}
 				}
@@ -97,7 +117,7 @@ func (x *XMLHandler) ExtractURLs(filePath string) ([]string, error) {
 		case xml.CharData:
 			// Check text content for URLs
 			text := string(t)
-			if isValidURL(text) {
+			if isValidURL(text) && !isFileURL(text) {
 				urls = append(urls, strings.TrimSpace(text))
 			}
 		}

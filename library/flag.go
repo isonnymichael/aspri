@@ -58,6 +58,7 @@ type Flag struct {
 	SelfUpdate         *bool
 	Tree               *bool
 	Update             *bool
+	XML                *bool
 	YoungerThan        *bool
 	YouTube            *bool
 
@@ -158,6 +159,7 @@ func GetFlag() Flag {
 		WPThemeBuildCheck:  flag.Bool("wp-theme-build-check", false, "WP Check Theme Comply with WordPress.org (Version Check)"),
 		WPTagTrunk:         flag.Bool("wp-tag-trunk", false, "WP Tag Trunk"),
 		WPRefactor:         flag.Bool("wp-refactor", false, "Refactor Library"),
+		XML:                flag.Bool("xml", false, "XML Mode"),
 		YoungerThan:        flag.Bool("younger-than", false, "Younger Than Mode"),
 		YouTube:            flag.Bool("youtube", false, "YouTube Mode"),
 

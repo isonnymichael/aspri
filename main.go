@@ -23,9 +23,10 @@ func main() {
 	library.InitiateJsonFunction(flags)
 	library.InitiatePHPFunction(flags)
 	library.InitiatePHPCSFunction(flags)
+	library.InitiateQuoteFunction(flags)
 	library.InitiateRsyncFunction(flags)
 	library.InitiateSyncthingFunction(flags)
-	library.InitiateQuoteFunction(flags)
+	library.InitiateXMLFunction(flags)
 	library.InitiateYouTubeFunction(flags)
 
 	// Initiate WordPress

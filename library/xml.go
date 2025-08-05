@@ -23,7 +23,6 @@ func InitiateXMLFunction(flags Flag) {
 		}
 
 		// Print the extracted URLs
-		fmt.Println("Extracted URLs:")
 		for _, url := range urls {
 			fmt.Println(url)
 		}

@@ -14,6 +14,12 @@ func InitiateMiscellaneousFunction(flags Flag) {
 		cmd := [...]string{"bash", "-c", "go get github.com/artistudioxyz/aspri"}
 		ExecCommand(cmd[:]...)
 	}
+
+	// Extract domain name from url
+	if *flags.Extract && *flags.Url != "" {
+		domain := ExtractDomainName(*flags.Url)
+		fmt.Println(domain)
+	}
 }
 
 /** Slugify function */
@@ -42,4 +48,21 @@ func Slugify(s string) string {
 	s = re.ReplaceAllString(s, "/")
 
 	return s
+}
+
+// ExtractDomainName
+func ExtractDomainName(url string) string {
+	// Regular expression to match the domain name
+	re := regexp.MustCompile(`https?://(?:www\.)?([^/]+)`)
+
+	// Find the first match in the URL
+	match := re.FindStringSubmatch(url)
+
+	// If a match is found, return the domain name
+	if len(match) > 1 {
+		return match[1]
+	}
+
+	// If no match is found, return an empty string
+	return ""
 }

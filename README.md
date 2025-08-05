@@ -95,6 +95,11 @@ You can install aspri by using one of these method
 - Extract markdown headings : `--md --path {workdir} --heading {heading}`
 - Remove Link from Markdown File : `--md --remove-link --path {workdir}`
 
+[Miscellaneous](library/miscellaneous.go) :
+
+- Self Update : `--self-update`
+- Extract Domain Name from URL : `--extract --url {url}`
+
 [NoIP](library/noip.go) :
 
 - Update Hostname : `--noip --update -u {username} -p {password} --hostname {hostname}`
@@ -111,17 +116,13 @@ You can install aspri by using one of these method
 
 - PHPCS Install Ruleset : `--phpcs --install`
 
-[Rsync](library/rsync.go)
-
-- Generate Rsync command based on [rsync.json](docs/rsync.json) : `--rsync`
-
-[Miscellaneous](library/miscellaneous.go) :
-
-- Self Update : `--self-update`
-
 [Quotes](library/quotes.go) :
 
 - Quote of the day : `--quote-of-the-day`
+
+[Rsync](library/rsync.go)
+
+- Generate Rsync command based on [rsync.json](docs/rsync.json) : `--rsync`
 
 [Syncthing](library/syncthing.go) :
 

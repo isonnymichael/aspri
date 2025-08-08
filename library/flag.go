@@ -62,6 +62,8 @@ type Flag struct {
 	XML                *bool
 	YoungerThan        *bool
 	YouTube            *bool
+	FabTemplatesFix    *bool
+	FabTemplatesCheck  *bool
 
 	// Bool Parameters
 	Count      *bool
@@ -165,6 +167,8 @@ func GetFlag() Flag {
 		XML:                flag.Bool("xml", false, "XML Mode"),
 		YoungerThan:        flag.Bool("younger-than", false, "Younger Than Mode"),
 		YouTube:            flag.Bool("youtube", false, "YouTube Mode"),
+		FabTemplatesFix:    flag.Bool("fab-templates-fix", false, "Fix FAB Templates JSON files"),
+		FabTemplatesCheck:  flag.Bool("fab-templates-check", false, "Check FAB Templates validity"),
 
 		// Bool Parameters
 		Count:      flag.Bool("count", false, "Count Mode"),

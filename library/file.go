@@ -115,6 +115,13 @@ func InitiateFileFunction(flags Flag) {
 	} else if *flags.SearchandReplace && *flags.From != "" && len(*flags.Filename) == 0 {
 		SearchandReplaceDirectory(*flags.Path, *flags.From, *flags.To, -1)
 	}
+	/** Remove Duplicated Files */
+	if *flags.RemoveDuplicatedFiles && len(*flags.ComparePaths) > 0 {
+		err := RemoveDuplicatedFiles(*flags.Path, *flags.ComparePaths, *flags.DryRun)
+		if err != nil {
+			fmt.Println("❌ Error removing duplicated files:", err)
+		}
+	}
 }
 
 // File Exist in Path.
@@ -693,4 +700,100 @@ func SearchandReplaceDirectory(path string, from string, to string, limit int) {
 	} else {
 		fmt.Println("✅ Success Search and Replace", from, "to", to, "in", path)
 	}
+}
+
+// RemoveDuplicatedFiles removes files from sourcePath that have the same filename and extension
+// as files in any of the comparePaths directories
+func RemoveDuplicatedFiles(sourcePath string, comparePaths []string, dryRun bool) error {
+	if sourcePath == "" {
+		currentDir, err := os.Getwd()
+		if err != nil {
+			return fmt.Errorf("failed to get current directory: %w", err)
+		}
+		sourcePath = currentDir
+	}
+
+	// Get all files from source path
+	sourceFiles, err := getAllFiles(sourcePath)
+	if err != nil {
+		return fmt.Errorf("failed to get files from source path %s: %w", sourcePath, err)
+	}
+
+	// Get all files from compare paths
+	compareFiles := make(map[string]bool)
+	for _, comparePath := range comparePaths {
+		// Handle comma-separated paths
+		paths := strings.Split(comparePath, ",")
+		for _, path := range paths {
+			path = strings.TrimSpace(path)
+			if path == "" {
+				continue
+			}
+			
+			files, err := getAllFiles(path)
+			if err != nil {
+				fmt.Printf("⚠️ Warning: failed to get files from %s: %v\n", path, err)
+				continue
+			}
+			
+			for _, file := range files {
+				filename := filepath.Base(file)
+				compareFiles[filename] = true
+			}
+		}
+	}
+
+	// Find and remove duplicates
+	var removedCount int
+	var duplicateFiles []string
+	
+	for _, sourceFile := range sourceFiles {
+		filename := filepath.Base(sourceFile)
+		if compareFiles[filename] {
+			duplicateFiles = append(duplicateFiles, sourceFile)
+			if dryRun {
+				fmt.Printf("Would remove duplicate: %s\n", sourceFile)
+			} else {
+				err := os.Remove(sourceFile)
+				if err != nil {
+					fmt.Printf("❌ Failed to remove %s: %v\n", sourceFile, err)
+				} else {
+					fmt.Printf("✅ Removed duplicate: %s\n", sourceFile)
+					removedCount++
+				}
+			}
+		}
+	}
+
+	if dryRun {
+		fmt.Printf("🔍 Dry run completed. Found %d duplicate files that would be removed.\n", len(duplicateFiles))
+	} else {
+		fmt.Printf("✅ Successfully removed %d duplicate files from %s\n", removedCount, sourcePath)
+	}
+
+	return nil
+}
+
+// getAllFiles returns all files in the given directory path
+func getAllFiles(dirPath string) ([]string, error) {
+	var allFiles []string
+	
+	err := filepath.Walk(dirPath, func(path string, info os.FileInfo, err error) error {
+		if err != nil {
+			return err
+		}
+		
+		// Include all files (not directories)
+		if !info.IsDir() {
+			allFiles = append(allFiles, path)
+		}
+		
+		return nil
+	})
+	
+	if err != nil {
+		return nil, err
+	}
+	
+	return allFiles, nil
 }

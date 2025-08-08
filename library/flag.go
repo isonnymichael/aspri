@@ -36,6 +36,7 @@ type Flag struct {
 	Random             *bool
 	Remove             *bool
 	RemoveConflicts    *bool
+	RemoveDuplicatedFiles *bool
 	RemoveLink         *bool
 	RemoveFunction     *bool
 	ResetCache         *bool
@@ -77,6 +78,7 @@ type Flag struct {
 	DateEnd      *string
 	DateStart    *string
 	Dirname      *[]string
+	ComparePaths *[]string
 	End          *string
 	Ext          *[]string
 	Except       *[]string
@@ -134,6 +136,7 @@ func GetFlag() Flag {
 		Random:             flag.Bool("random", false, "Random Mode"),
 		Remove:             flag.Bool("remove", false, "Remove Mode for Dir and File"),
 		RemoveConflicts:    flag.Bool("remove-conflicts", false, "Remove Conflicts"),
+		RemoveDuplicatedFiles: flag.Bool("remove-duplicated-files", false, "Remove duplicated files (all file types)"),
 		RemoveLink:         flag.Bool("remove-link", false, "Remove Link from File"),
 		RemoveFunction:     flag.Bool("remove-function", false, "Remove Link from File"),
 		ResetCache:         flag.Bool("reset-cache", false, "Git Reset Cache"),
@@ -176,6 +179,7 @@ func GetFlag() Flag {
 		DateStart:    flag.String("date-start", "", "Date Start"),
 		Days:         flag.Int("days", 0, "Days (Older Than Mode): Days"),
 		Dirname:      flag.StringArray("dirname", []string{}, "Directory Name (Dir Mode): Directory Name"),
+		ComparePaths: flag.StringArray("compare-paths", []string{}, "Comma-separated paths to compare for duplicate files (all file types)"),
 		End:          flag.String("end", "", "End Date"),
 		Ext:          flag.StringArray("ext", []string{}, "File extensions to include"),
 		Except:       flag.StringArray("except", []string{}, "File to exclude"),

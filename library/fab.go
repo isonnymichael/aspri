@@ -166,21 +166,27 @@ func processJSONFile(filePath string) error {
 		}
 	}
 
-	// Save changes only if modifications were made
-	if modified {
-		jsonBytes, err := json.MarshalIndent(jsonData, "", "  ")
-		if err != nil {
-			return fmt.Errorf("failed to marshal JSON: %w", err)
-		}
+	// Always prettify JSON, even if no structural changes were made
+	jsonBytes, err := json.MarshalIndent(jsonData, "", "  ")
+	if err != nil {
+		return fmt.Errorf("failed to marshal JSON: %w", err)
+	}
 
-		err = ioutil.WriteFile(filePath, jsonBytes, 0644)
-		if err != nil {
-			return fmt.Errorf("failed to write file: %w", err)
-		}
-		
+	// Check if the prettified content is different from the original
+	if !modified && string(jsonBytes) == strings.TrimSpace(string(content)) {
+		fmt.Printf("  - No changes needed for %s\n", filepath.Base(filePath))
+		return nil
+	}
+
+	err = ioutil.WriteFile(filePath, jsonBytes, 0644)
+	if err != nil {
+		return fmt.Errorf("failed to write file: %w", err)
+	}
+	
+	if modified {
 		fmt.Printf("  - Saved changes to %s\n", filepath.Base(filePath))
 	} else {
-		fmt.Printf("  - No changes needed for %s\n", filepath.Base(filePath))
+		fmt.Printf("  - Prettified JSON formatting for %s\n", filepath.Base(filePath))
 	}
 
 	return nil

@@ -167,7 +167,7 @@ func GetFlag() Flag {
 		XML:                flag.Bool("xml", false, "XML Mode"),
 		YoungerThan:        flag.Bool("younger-than", false, "Younger Than Mode"),
 		YouTube:            flag.Bool("youtube", false, "YouTube Mode"),
-		FabTemplatesFix:    flag.Bool("fab-templates-fix", false, "Fix FAB Templates JSON files"),
+		FabTemplatesFix:    flag.Bool("fab-templates-fix", false, "Fix FAB Templates JSON files (includes prettification)"),
 		FabTemplatesCheck:  flag.Bool("fab-templates-check", false, "Check FAB Templates validity"),
 
 		// Bool Parameters

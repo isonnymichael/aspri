@@ -1,9 +1,10 @@
-package library
+package wordpress
 
 import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"github.com/artistudioxyz/aspri/library"
 	"io/ioutil"
 	"os"
 	"path/filepath"
@@ -11,7 +12,7 @@ import (
 )
 
 // InitiateFabFunction handles FAB template fixes and checks
-func InitiateFabFunction(flags Flag) {
+func InitiateFabFunction(flags library.Flag) {
 	if *flags.FabTemplatesFix {
 		err := FixFabTemplates(*flags.Path)
 		if err != nil {

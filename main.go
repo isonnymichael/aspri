@@ -13,7 +13,6 @@ func main() {
 	library.InitiateChatGPTFunction(flags)
 	library.InitiateContribution(flags)
 	library.InitiateDockerFunction(flags)
-	library.InitiateFabFunction(flags)
 	library.InitiateFileFunction(flags)
 	library.InitiateDirectoryFunction(flags)
 	library.InitiateGitFunction(flags)
@@ -29,7 +28,8 @@ func main() {
 	library.InitiateSyncthingFunction(flags)
 	library.InitiateXMLFunction(flags)
 	library.InitiateYouTubeFunction(flags)
-
+	
 	// Initiate WordPress
+	wordpress.InitiateFabFunction(flags)
 	wordpress.InitiateWordPressFunction(flags)
 }

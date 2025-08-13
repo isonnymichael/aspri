@@ -15,6 +15,7 @@ type Flag struct {
 	Docker             *bool
 	DockerCompose      *bool
 	DryRun             *bool
+	Duplicated         *bool
 	Extract            *bool
 	ExtractUrl         *bool
 	File               *bool
@@ -36,7 +37,6 @@ type Flag struct {
 	Random             *bool
 	Remove             *bool
 	RemoveConflicts    *bool
-	RemoveDuplicatedFiles *bool
 	RemoveLink         *bool
 	RemoveFunction     *bool
 	ResetCache         *bool
@@ -116,6 +116,7 @@ func GetFlag() Flag {
 		Docker:             flag.Bool("docker", false, "Docker Mode"),
 		DockerCompose:      flag.Bool("docker-compose", false, "Docker Compose Mode"),
 		DryRun:             flag.Bool("dry-run", false, "Dry Run Mode"),
+		Duplicated:         flag.Bool("duplicated", false, "Duplicated Files Mode"),
 		Extract:            flag.Bool("extract", false, "Extract Mode"),
 		ExtractUrl:         flag.Bool("extract-url", false, "Extract URL Mode"),
 		File:               flag.Bool("file", false, "File Mode"),
@@ -136,7 +137,6 @@ func GetFlag() Flag {
 		Random:             flag.Bool("random", false, "Random Mode"),
 		Remove:             flag.Bool("remove", false, "Remove Mode for Dir and File"),
 		RemoveConflicts:    flag.Bool("remove-conflicts", false, "Remove Conflicts"),
-		RemoveDuplicatedFiles: flag.Bool("remove-duplicated-files", false, "Remove duplicated files (all file types)"),
 		RemoveLink:         flag.Bool("remove-link", false, "Remove Link from File"),
 		RemoveFunction:     flag.Bool("remove-function", false, "Remove Link from File"),
 		ResetCache:         flag.Bool("reset-cache", false, "Git Reset Cache"),

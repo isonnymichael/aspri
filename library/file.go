@@ -116,7 +116,7 @@ func InitiateFileFunction(flags Flag) {
 		SearchandReplaceDirectory(*flags.Path, *flags.From, *flags.To, -1)
 	}
 	/** Remove Duplicated Files */
-	if *flags.RemoveDuplicatedFiles && len(*flags.ComparePaths) > 0 {
+	if *flags.File && *flags.Remove && *flags.Duplicated && len(*flags.ComparePaths) > 0 {
 		err := RemoveDuplicatedFiles(*flags.Path, *flags.ComparePaths, *flags.DryRun)
 		if err != nil {
 			fmt.Println("❌ Error removing duplicated files:", err)

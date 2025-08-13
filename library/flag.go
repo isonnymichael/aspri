@@ -179,7 +179,7 @@ func GetFlag() Flag {
 		DateStart:    flag.String("date-start", "", "Date Start"),
 		Days:         flag.Int("days", 0, "Days (Older Than Mode): Days"),
 		Dirname:      flag.StringArray("dirname", []string{}, "Directory Name (Dir Mode): Directory Name"),
-		ComparePaths: flag.StringArray("compare-paths", []string{}, "Comma-separated paths to compare for duplicate files (all file types)"),
+		ComparePaths: flag.StringArray("compare-paths", []string{}, "Paths to compare for duplicate files"),
 		End:          flag.String("end", "", "End Date"),
 		Ext:          flag.StringArray("ext", []string{}, "File extensions to include"),
 		Except:       flag.StringArray("except", []string{}, "File to exclude"),

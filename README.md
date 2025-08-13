@@ -71,6 +71,7 @@ You can install aspri by using one of these method
 - Remove Files Nested Except Extensions : `--file --remove --ext {.php} --except {composer.json} --path {workdir}`
 - Remove Files older than x days matching regex nested : `--file --remove --older-than --days {days} --regex {regex} --path {workdir} --dry-run`
 - Remove Directory older than x days : `--dir --remove --older-than --days {days} --level {0} --path {workdir} --dry-run`
+- Remove duplicated files : `--file --remove --duplicated --path {workdir} --compare-paths {dirname}`
 - Sort Files by Date : `--file --sort --sort-order {asc|desc} --path {workdir}`
 - Search and Replace :
   - in Directory : `--search-replace --path {dir} --from {text} --to {text}`
@@ -146,6 +147,11 @@ You can install aspri by using one of these method
 [YouTube](library/youtube.go)
 
 - Extract YouTube Video Data : `--youtube --extract --path {filepath}`
+
+[FAB](library/fab.go)
+
+- Templates fix: `--fab-templates-fix --path {workdir}`
+- Templates check: `--fab-templates-check --path {workdir}`
 
 ## ⚒️ Built with
 

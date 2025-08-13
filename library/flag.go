@@ -15,6 +15,7 @@ type Flag struct {
 	Docker             *bool
 	DockerCompose      *bool
 	DryRun             *bool
+	Duplicated         *bool
 	Extract            *bool
 	ExtractUrl         *bool
 	File               *bool
@@ -77,6 +78,7 @@ type Flag struct {
 	DateEnd      *string
 	DateStart    *string
 	Dirname      *[]string
+	ComparePaths *[]string
 	End          *string
 	Ext          *[]string
 	Except       *[]string
@@ -114,6 +116,7 @@ func GetFlag() Flag {
 		Docker:             flag.Bool("docker", false, "Docker Mode"),
 		DockerCompose:      flag.Bool("docker-compose", false, "Docker Compose Mode"),
 		DryRun:             flag.Bool("dry-run", false, "Dry Run Mode"),
+		Duplicated:         flag.Bool("duplicated", false, "Duplicated Files Mode"),
 		Extract:            flag.Bool("extract", false, "Extract Mode"),
 		ExtractUrl:         flag.Bool("extract-url", false, "Extract URL Mode"),
 		File:               flag.Bool("file", false, "File Mode"),
@@ -176,6 +179,7 @@ func GetFlag() Flag {
 		DateStart:    flag.String("date-start", "", "Date Start"),
 		Days:         flag.Int("days", 0, "Days (Older Than Mode): Days"),
 		Dirname:      flag.StringArray("dirname", []string{}, "Directory Name (Dir Mode): Directory Name"),
+		ComparePaths: flag.StringArray("compare-paths", []string{}, "Paths to compare for duplicate files"),
 		End:          flag.String("end", "", "End Date"),
 		Ext:          flag.StringArray("ext", []string{}, "File extensions to include"),
 		Except:       flag.StringArray("except", []string{}, "File to exclude"),
